@@ -9,6 +9,10 @@ from flask_cors import CORS
 import json
 from stock_wrapper import get_stock
 from news_wrapper import get_news
+from gen_ai import insight
+from ml_model import predict
+from pymongo_get_database import get_database
+
 
 app = Flask(__name__)
 
@@ -20,145 +24,63 @@ def hello():
         "message1": "This is the backend API service for our Citi Hackoverflow Hackathon",
         "message2": "Please use the following routes:",
         "routes": [
+            "/create_insight/<ticker>/<topic>",
             "/stock/<ticker>",
             "/news/<topic>"
         ]
     })
 
+# to get the stock prices of a ticker
 @app.route("/stock/<ticker>")
 def stock(ticker):
     return jsonify(get_stock(ticker.upper()))
 
-@app.route("/news/<topic>")
-def news(topic):
-    return jsonify(get_news(topic))
+# to get news of certain topics
+# might need to parse the topic
+@app.route("/news/<topics>")
+def news(topics):
+    return get_news(topics)
 
-# @app.route("/inventory/<string:type>")
-# def find_by_type(type):
-#     inventory = Inventory.query.filter_by(type=type).first()
-#     if inventory:
-#         return jsonify(
-#             {
-#                 "code": 200,
-#                 "data": inventory.json()
-#             }
-#         )
-#     return jsonify(
-#         {
-#             "code": 404,
-#             "data": {
-#                 "type": type
-#             },
-#             "message": "Inventory not found."
-#         }
-#     ), 404
+@app.route("/create_insight/<ticker>/<topics>")
+def create_insight(ticker, topics):
 
+    # call function from stock_wrapper.py
+    data1 = get_stock(ticker.upper())
+    
+    # call function from news_wrapper.py
+    data2 = get_news(topics)
+    articles = data2["articles"]
+    count = 0
+    news_articles = []
+    for article in articles:
+        temp = {}
+        if count == 10:
+            break
+        if article["title"] != "[Removed]":
+            temp["content"] = article["title"] + article["description"]
+            temp["url"] = article["url"]
+            temp["date"] = article["publishedAt"]
+            news_articles.append(temp)
+            count += 1
 
-# @app.route("/inventory/return/<string:type>", methods=['PUT'])
-# def update_inventory(type):
-#     try:
-#         inventory = Inventory.query.filter_by(type=type).first()
-#         if not inventory:
-#             return jsonify(
-#                 {
-#                     "code": 404,
-#                     "data": {
-#                         "inventory": inventory
-#                     },
-#                     "message": "inventory not found."
-#                 }
-#             ), 404
+    print(news_articles)
+    
+    # call function from gen_ai.py by passing in news_articles
+    data3 = insight()
 
-#         # update status
-#         data = request.get_json()
-#         if data['quantity']:
-#             quantity_return = data['quantity']
+    toInsertDB = {}
 
-#             if quantity_return > int(inventory.loaned):
-#                 return jsonify(
-#                     {
-#                         "code": 406,
-#                         "quantity": quantity_return,
-#                         "data": inventory.json(),
-#                         "message": "Quantity to be returned is more than the loaned quantity."
-#                     }
-#                 ), 406
+    # insert into database
+    # dbname = get_database()
+    # collection_name = dbname["news"]
+    # collection_name.insert_one(toInsertDB)
 
-#             available = int(inventory.available) + int(quantity_return)
-#             loaned = int(inventory.loaned) - int(quantity_return)
-#             inventory.available = available
-#             inventory.loaned = loaned
-#             db.session.commit()
-#             return jsonify(
-#                 {
-#                     "code": 200,
-#                     "data": inventory.json()
-#                 }
-#             ), 200
-#     except Exception as e:
-#         return jsonify(
-#             {
-#                 "code": 500,
-#                 "data": {
-#                     "type": type
-#                 },
-#                 "message": "An error occurred while updating the inventory. " + str(e)
-#             }
-#         ), 500
+    # call function from ml_model.py
+    data4 = predict()
 
-
-# @app.route("/inventory/loan/<string:type>", methods=['PUT'])
-# def loan_inventory(type):
-#     try:
-#         inventory = Inventory.query.filter_by(type=type).first()
-#         if not inventory:
-#             return jsonify(
-#                 {
-#                     "code": 404,
-#                     "data": {
-#                         "inventory": inventory
-#                     },
-#                     "message": "inventory not found."
-#                 }
-#             ), 404
-
-#         # update status
-#         data = request.get_json()
-#         if data['quantity']:
-#             quantity_loan = data['quantity']
-
-#             if quantity_loan > int(inventory.available):
-#                 return jsonify(
-#                     {
-#                         "code": 406,
-#                         "quantity": quantity_loan,
-#                         "data": inventory.json(),
-#                         "message": "Quantity to be returned is more than the loaned quantity."
-#                     }
-#                 ), 406
-
-#             available = int(inventory.available) - int(quantity_loan)
-#             loaned = int(inventory.loaned) + int(quantity_loan)
-#             inventory.available = available
-#             inventory.loaned = loaned
-#             db.session.commit()
-#             return jsonify(
-#                 {
-#                     "code": 200,
-#                     "data": inventory.json()
-#                 }
-#             ), 200
-#     except Exception as e:
-#         return jsonify(
-#             {
-#                 "code": 500,
-#                 "data": {
-#                     "type": type
-#                 },
-#                 "message": "An error occurred while updating the inventory. " + str(e)
-#             }
-#         ), 500
-
+    return jsonify({
+        "message": "Need to parse through the ticker and topic"
+    })
 
 if __name__ == '__main__':
     print("Running the " + os.path.basename(__file__) + " service")
