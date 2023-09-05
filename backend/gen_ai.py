@@ -11,29 +11,59 @@ from langchain.chains.summarize import load_summarize_chain
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("API_KEY")
 
-data = ["""Elon Musk's father told The U.S. Sun he feared his billionaire son could be assassinated.
+news_articles = [
+    {
+        'content': 'Nvidia, Tesla, Apple Stocks All Had a Great Week. Bring On SeptemberIt was a good week for the stock market heading into Labor Day as August ended in strong fashion and Friday’s jobs report ensured a solid star... #laborday',
+        'url': 'https://biztoc.com/x/e3f6805654e0cdcc',
+        'date': '2023-09-04T14:12:07Z'
+        },
+    {
+        'content': "'Low Polygon Joke:' Designer Blasts Tesla’s Cybertruck, Claims It Will Require Complete RedesignA car designer claims Tesla's Cybertruck has a serious problem that can only be fixed with a complete revamp of the vehicle, as its issues are deeply rooted in its design.",
+        'url': 'https://www.breitbart.com/tech/2023/09/04/low-polygon-joke-designer-blasts-teslas-cybertruck-claims-it-will-require-complete-redesign/',
+        'date': '2023-09-04T14:10:59Z'
+        }, 
+    {
+        'content': 'Neoliberalism on Trial: Artificial Intelligence and Existential Risk<ul>\n<li>Rather than breaking capitalism… A.G.I… is more likely to create a powerful… ally for capitalism’s most destructive creed: neoliberalism.</li>\n</ul>\n<ul>\n<li>—Evgeny Morozov. The New York Times1</li>\n</ul>\nThe New York Times for decades has been Amer…',
+        'url': 'https://www.econlib.org/library/columns/y2023/donwayai.htm',
+        'date': '2023-09-04T14:00:34Z'
+        }, 
+    {
+        'content': "UAW's clash with Big 3 automakers shows off a more confrontational union as strike deadline loomsA 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions.",
+        'url': 'https://www.startribune.com/uaws-clash-with-big-3-automakers-shows-off-a-more-confrontational-union-as-strike-deadline-looms/600301900/',
+        'date': '2023-09-04T14:00:08Z'
+        }, 
+    {
+        'content': 'UAW clash with automakers shows more confrontational union as strike looms...A 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions. The demands that a more combative United Auto Workers union has pressed on General Motors, Stellantis and Ford are edging it closer to a strike when its contract ends…',
+        'url': 'https://apnews.com/article/automakers-cars-strike-pay-uaw-union-detroit-349a6e7281f1b07710cfcad511dcaa05',
+        'date': '2023-09-04T14:00:05Z'
+        }, 
+    {
+        'content': 'Mercedes CLA Concept Takes Efficiency To A New LevelMercedes brought its CLA Concept to the IAA show this week. It borrows many of the technical features of the EQXX experimental car.',
+        'url': 'https://cleantechnica.com/2023/09/04/mercedes-cla-concept-takes-efficiency-to-a-new-level/',
+        'date': '2023-09-04T13:59:48Z'
+        }, 
+    {
+        'content': 'UAW’s clash with Big 3 automakers shows off a more confrontational union as strike deadline loomsA 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions. The demands that a more combative United Auto Workers union has pressed on General Motors, Stellantis and Ford are edging it closer to a strike when its contract ends…',
+        'url': 'https://www.denverpost.com/2023/09/04/uaws-clash-with-big-3-automakers-shows-off-a-more-confrontational-union-as-strike-deadline-looms/',
+        'date': '2023-09-04T13:57:03Z'
+        }, 
+    {
+        'content': 'Nvidia, Tesla, Apple Stocks All Had a Great Week. Bring On SeptemberIt was a good week for the stock market heading into Labor Day as August ended in strong fashion and Friday’s jobs report ensured a solid star... #laborday',
+        'url': 'https://biztoc.com/x/6b009398fb18a931',
+        'date': '2023-09-04T13:44:27Z'
+        }, 
+    {
+        'content': "'Magnificent 7' Give Markets Hope for SeptemberThis month is historically difficult for stocks. Investors will be hoping the momentum of several big companies can continue.",
+        'url': 'https://www.barrons.com/articles/nvidia-tesla-apple-stock-market-movers-september-80edcfaf',
+        'date': '2023-09-04T13:37:41Z'
+        }, 
+    {
+        'content': "Elon Musk Is Not Satoshi Nakamoto Because 'Bitcoin Whitepaper Has No Memes,' Says DogeDesignerDogeDesigner, as the name suggests, graphic designer at Dogecoin DOGE/USD on Sunday firmly denied the speculation that Elon Musk, the CEO of Tesla and SpaceX, is the elusive creator of Bitcoin BTC/USD known as Satoshi Nakamoto. What Happened: DogeDesigner arg…",
+        'url': 'https://biztoc.com/x/062e06b2ae30a00e',
+        'date': '2023-09-04T13:36:11Z'
+        }
+]
 
-The 77-year-old Errol Musk criticized a recent article in The New Yorker that explored the world's richest person's influence on government decisions about the war in Ukraine.
-
-Pentagon officials told The New Yorker that Elon Musk was treated like an "unelected official" and raised concerns about his attitude toward Vladimir Putin. The report also highlighted how crucial SpaceX's Starlink satellites had been in the war in Ukraine.
-
-"It's a hit job, a shadow government-sponsored opening salvo on Elon," the elder Musk told The U.S. Sun.
-
-And when The U.S. Sun reporter asked whether he feared the "shadow government" could assassinate his son, he replied, "Yes."
-
-The SpaceX CEO appears to have a strained relationship with his father and has previously called him a "terrible human being."
-
-Errol Musk also described the New Yorker article to The U.S. Sun as "the artillery-like softening up of the enemy before the actual attack."
-
-In May of last year, the billionaire appeared to joke that he could "die under mysterious circumstances" following an argument with Russia's space chief over SpaceX giving Starlink terminals to Ukrainian soldiers.
-
-An X engineer previously told the BBC that two bodyguards had followed Elon Musk around the company headquarters, including to the bathroom. A lawsuit filed in May said he'd also requested a bathroom to be built next to his X office so he wouldn't have to wake up his security in the middle of the night.
-
-But Elon Musk's own security concerns were most apparent during the controversy over his private jet being tracked last December. Journalists who shared links to the @ElonJet account on X, formerly known as Twitter, were temporarily barred, and Musk accused them of wanting to harm him.
-
-That was after Elon Musk said a car carrying his son had been followed by a "crazy stalker (thinking it was me)."
-
-Musk did not immediately reply to a request for comment from Insider, sent outside US working hours."""]
 
 class insight_Generator():
 
@@ -41,7 +71,7 @@ class insight_Generator():
         self.llm = OpenAI()
         self.text_splitter = CharacterTextSplitter(separator="\n", chunk_size=500, chunk_overlap=50)
         self.prompt_template_insight = """Generate investment related insights from the article below. 
-        THEN, generate a python list with the top 20 tags that could affect the stock price.
+        THEN, generate a list of the top 20 tags that could affect the stock price.
         
 
         {text}
@@ -49,8 +79,18 @@ class insight_Generator():
 
         --EXAMPLE--
         INSIGHTS: "Insight here"
-        LIST OF CATEGORIES: ['tag 1', 'tag 2', 'tag 3', 'tag 4', 'tag 5', 'tag 6', 'tag 7', 'tag 8', 'tag 9', 'tag 10', 'tag 11', 'tag 12', 'tag 13', 'tag 14', 'tag 15', 'tag 16', 'tag 17', 'tag 18', 'tag 19', 'tag 20']
+        LIST OF CATEGORIES: "tag 1, tag 2, tag 3, tag 4, tag 5, tag 6, tag 7, tag 8, tag 9, tag 10, tag 11, tag 12, tag 13, tag 14, tag 15, tag 16, tag 17, tag 18, tag 19, tag 20"
         """
+        self.prompt_template_sum = """Generate a detailed summary of all the insights below:
+        
+
+        {text}
+
+
+        --EXAMPLE--
+        INSIGHT SUMMARY: "Insight summary here"
+        """
+
 
     def data_splitter(self, data):
         texts = self.text_splitter.split_text(data)
@@ -59,12 +99,13 @@ class insight_Generator():
 
 
 
-    def run_chain(self, data):
+    def run_chain(self, news_articles):
         insight_list = []
         tags_list = []
 
-        for article in data:
-            docs = self.data_splitter(article)
+        for i, article in enumerate(news_articles):
+
+            docs = self.data_splitter(article['content'])
             PROMPT = PromptTemplate(template=self.prompt_template_insight, input_variables=["text"])
             chain = load_summarize_chain(self.llm, chain_type="stuff", prompt=PROMPT)
             chain({"input_documents": docs}, return_only_outputs=False)
@@ -72,18 +113,23 @@ class insight_Generator():
 
             result = chain.run(input_documents=docs)
 
-            pattern_tags = r'\[.*?\]'
             start = result.find("INSIGHT:") + len("INSIGHT:")
             end = result.find("LIST OF CATEGORIES:")
+            start2 = end + len("LIST OF CATEGORIES:")
  
             insight = result[start:end].strip()
-            tags_raw = re.search(r'\[([^\]]+)\]', result).group()
-            tags = ", ".join(tags_raw)
+            tags_raw = result[start2:].strip()
+            news_articles[i]['tags'] = tags_raw
 
             insight_list.append(insight)
-            tags_list.append(tags)
 
-        return insight_list, tags_list
+        sum_insights_raw = "\n\n".join(insight_list)
+        docs = self.data_splitter(sum_insights_raw)
+        PROMPT_SUM = PromptTemplate(template=self.prompt_template_sum, input_variables=["text"])
+        chain = load_summarize_chain(self.llm, chain_type="stuff", prompt=PROMPT_SUM)
+        sum_insights = chain.run(input_documents=docs)
+        return sum_insights, news_articles
 
 
-print(insight_Generator().run_chain(data))
+
+print(insight_Generator().run_chain(news_articles))
