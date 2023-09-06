@@ -38,9 +38,12 @@ def predict_future(new_keywords):
     new_keywords_text = [new_keywords.replace(',', ' ')] 
     new_X = vectorizer.transform(new_keywords_text)
     predicted_stock_price = model.predict(new_X)
-    print(f"Predicted Stock Price: {predicted_stock_price}")
+    return {
+        "predicted_price" : predicted_stock_price,
+        "mse": mse, 
+        "rmse": rmse, 
+        "r2": r2
+    }
 
     
-#input for predict_future has to be list?
-predict_future('profit, growth, loss, decline')
 
