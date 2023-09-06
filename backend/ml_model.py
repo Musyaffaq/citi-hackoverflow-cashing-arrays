@@ -35,7 +35,7 @@ def predict_future(new_keywords):
     print(y_pred_before, mse, r2, rmse)
 
     #predicting function
-    new_keywords_text = new_keywords.replace(',', ' ')
+    new_keywords_text = [new_keywords.replace(',', ' ')]
     new_X = vectorizer.transform(new_keywords_text)
     predicted_stock_price = model.predict(new_X)
     return {
