@@ -21,7 +21,7 @@ def predict_future(new_keywords):
     dbname = client['tesla-news']
     collection = dbname['news']
     documents = list(collection.find())
-    keywords = [doc['keywords'] for doc in documents]
+    keywords = [doc['tags'] for doc in documents]
     keywords_text = [k.replace(',', ' ') for k in keywords]
     stockprices = [doc['stockprice'] for doc in documents]
     X = vectorizer.fit_transform(keywords_text)
@@ -35,15 +35,12 @@ def predict_future(new_keywords):
     print(y_pred_before, mse, r2, rmse)
 
     #predicting function
-    new_keywords_text = [new_keywords.replace(',', ' ')] 
+    new_keywords_text = new_keywords.replace(',', ' ')
     new_X = vectorizer.transform(new_keywords_text)
     predicted_stock_price = model.predict(new_X)
     return {
-        "predicted_price" : predicted_stock_price,
+        "predicted_price" : predicted_stock_price[0],
         "mse": mse, 
         "rmse": rmse, 
         "r2": r2
     }
-
-    
-
