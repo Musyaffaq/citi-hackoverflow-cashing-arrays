@@ -19,6 +19,7 @@ class insight_Generator():
         self.text_splitter = CharacterTextSplitter(separator="\n", chunk_size=500, chunk_overlap=50)
         self.prompt_template_insight = """You are a top analyst at an investment bank whose daily job is to analyse news articles to draw insights about the movement of stock prices. Generate investment related insights that you would use in your daily job from the article below. 
         THEN, generate a list of the top 20 tags that could affect the stock price.
+        THEN, generate a list of relevant invest risks relevant to the article ONLY from this list of risks: "Interest Rate Risk, Market Risk, Credit Risk, Liquidity Risk, Operational Risk, Reinvestment Risk, Currency Risk, Inflation Risk, Political Risk, Business Risk, Volatility Risk, Concentration Risk, Longevity Risk, Model Risk, Counterparty Risk". return NIL if no risk is relevant.
         
 
         {text}
@@ -27,6 +28,7 @@ class insight_Generator():
         --EXAMPLE--
         INSIGHTS: "Insight here"
         LIST OF CATEGORIES: "tag 1, tag 2, tag 3, tag 4, tag 5, tag 6, tag 7, tag 8, tag 9, tag 10, tag 11, tag 12, tag 13, tag 14, tag 15, tag 16, tag 17, tag 18, tag 19, tag 20"
+        LIST OF RISKS: "risk 1, risk 2, risk 3..."
         """
         self.prompt_template_sum = """Generate a detailed summary of all the insights below:
         
@@ -72,10 +74,14 @@ class insight_Generator():
             start = result.find("INSIGHT:") + len("INSIGHT:")
             end = result.find("LIST OF CATEGORIES:")
             start2 = end + len("LIST OF CATEGORIES:")
+            end2 = result.find("LIST OF RISKS:")
+            start3 = end2 + len("LIST OF RISKS:")
  
             insight = result[start:end].strip()
-            tags_raw = result[start2:].strip()
+            tags_raw = result[start2:end2].strip()
+            risks_raw = result[start3:].strip()
             news_articles[i]['tags'] = tags_raw
+            news_articles[i]['risks'] = risks_raw
 
             insight_list.append(insight)
 
@@ -94,58 +100,58 @@ class insight_Generator():
 
 
 
-# news_articles = [
-#     {
-#         'content': 'Nvidia, Tesla, Apple Stocks All Had a Great Week. Bring On SeptemberIt was a good week for the stock market heading into Labor Day as August ended in strong fashion and Friday’s jobs report ensured a solid star... #laborday',
-#         'url': 'https://biztoc.com/x/e3f6805654e0cdcc',
-#         'date': '2023-09-04T14:12:07Z'
-#         },
-#     {
-#         'content': "'Low Polygon Joke:' Designer Blasts Tesla’s Cybertruck, Claims It Will Require Complete RedesignA car designer claims Tesla's Cybertruck has a serious problem that can only be fixed with a complete revamp of the vehicle, as its issues are deeply rooted in its design.",
-#         'url': 'https://www.breitbart.com/tech/2023/09/04/low-polygon-joke-designer-blasts-teslas-cybertruck-claims-it-will-require-complete-redesign/',
-#         'date': '2023-09-04T14:10:59Z'
-#         }, 
-#     {
-#         'content': 'Neoliberalism on Trial: Artificial Intelligence and Existential Risk<ul>\n<li>Rather than breaking capitalism… A.G.I… is more likely to create a powerful… ally for capitalism’s most destructive creed: neoliberalism.</li>\n</ul>\n<ul>\n<li>—Evgeny Morozov. The New York Times1</li>\n</ul>\nThe New York Times for decades has been Amer…',
-#         'url': 'https://www.econlib.org/library/columns/y2023/donwayai.htm',
-#         'date': '2023-09-04T14:00:34Z'
-#         }, 
-#     {
-#         'content': "UAW's clash with Big 3 automakers shows off a more confrontational union as strike deadline loomsA 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions.",
-#         'url': 'https://www.startribune.com/uaws-clash-with-big-3-automakers-shows-off-a-more-confrontational-union-as-strike-deadline-looms/600301900/',
-#         'date': '2023-09-04T14:00:08Z'
-#         }, 
-#     {
-#         'content': 'UAW clash with automakers shows more confrontational union as strike looms...A 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions. The demands that a more combative United Auto Workers union has pressed on General Motors, Stellantis and Ford are edging it closer to a strike when its contract ends…',
-#         'url': 'https://apnews.com/article/automakers-cars-strike-pay-uaw-union-detroit-349a6e7281f1b07710cfcad511dcaa05',
-#         'date': '2023-09-04T14:00:05Z'
-#         }, 
-#     {
-#         'content': 'Mercedes CLA Concept Takes Efficiency To A New LevelMercedes brought its CLA Concept to the IAA show this week. It borrows many of the technical features of the EQXX experimental car.',
-#         'url': 'https://cleantechnica.com/2023/09/04/mercedes-cla-concept-takes-efficiency-to-a-new-level/',
-#         'date': '2023-09-04T13:59:48Z'
-#         }, 
-#     {
-#         'content': 'UAW’s clash with Big 3 automakers shows off a more confrontational union as strike deadline loomsA 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions. The demands that a more combative United Auto Workers union has pressed on General Motors, Stellantis and Ford are edging it closer to a strike when its contract ends…',
-#         'url': 'https://www.denverpost.com/2023/09/04/uaws-clash-with-big-3-automakers-shows-off-a-more-confrontational-union-as-strike-deadline-looms/',
-#         'date': '2023-09-04T13:57:03Z'
-#         }, 
-#     {
-#         'content': 'Nvidia, Tesla, Apple Stocks All Had a Great Week. Bring On SeptemberIt was a good week for the stock market heading into Labor Day as August ended in strong fashion and Friday’s jobs report ensured a solid star... #laborday',
-#         'url': 'https://biztoc.com/x/6b009398fb18a931',
-#         'date': '2023-09-04T13:44:27Z'
-#         }, 
-#     {
-#         'content': "'Magnificent 7' Give Markets Hope for SeptemberThis month is historically difficult for stocks. Investors will be hoping the momentum of several big companies can continue.",
-#         'url': 'https://www.barrons.com/articles/nvidia-tesla-apple-stock-market-movers-september-80edcfaf',
-#         'date': '2023-09-04T13:37:41Z'
-#         }, 
-#     {
-#         'content': "Elon Musk Is Not Satoshi Nakamoto Because 'Bitcoin Whitepaper Has No Memes,' Says DogeDesignerDogeDesigner, as the name suggests, graphic designer at Dogecoin DOGE/USD on Sunday firmly denied the speculation that Elon Musk, the CEO of Tesla and SpaceX, is the elusive creator of Bitcoin BTC/USD known as Satoshi Nakamoto. What Happened: DogeDesigner arg…",
-#         'url': 'https://biztoc.com/x/062e06b2ae30a00e',
-#         'date': '2023-09-04T13:36:11Z'
-#         }
-# ]
+news_articles = [
+    {
+        'content': 'Nvidia, Tesla, Apple Stocks All Had a Great Week. Bring On SeptemberIt was a good week for the stock market heading into Labor Day as August ended in strong fashion and Friday’s jobs report ensured a solid star... #laborday',
+        'url': 'https://biztoc.com/x/e3f6805654e0cdcc',
+        'date': '2023-09-04T14:12:07Z'
+        },
+    {
+        'content': "'Low Polygon Joke:' Designer Blasts Tesla’s Cybertruck, Claims It Will Require Complete RedesignA car designer claims Tesla's Cybertruck has a serious problem that can only be fixed with a complete revamp of the vehicle, as its issues are deeply rooted in its design.",
+        'url': 'https://www.breitbart.com/tech/2023/09/04/low-polygon-joke-designer-blasts-teslas-cybertruck-claims-it-will-require-complete-redesign/',
+        'date': '2023-09-04T14:10:59Z'
+        }, 
+    {
+        'content': 'Neoliberalism on Trial: Artificial Intelligence and Existential Risk<ul>\n<li>Rather than breaking capitalism… A.G.I… is more likely to create a powerful… ally for capitalism’s most destructive creed: neoliberalism.</li>\n</ul>\n<ul>\n<li>—Evgeny Morozov. The New York Times1</li>\n</ul>\nThe New York Times for decades has been Amer…',
+        'url': 'https://www.econlib.org/library/columns/y2023/donwayai.htm',
+        'date': '2023-09-04T14:00:34Z'
+        }, 
+    {
+        'content': "UAW's clash with Big 3 automakers shows off a more confrontational union as strike deadline loomsA 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions.",
+        'url': 'https://www.startribune.com/uaws-clash-with-big-3-automakers-shows-off-a-more-confrontational-union-as-strike-deadline-looms/600301900/',
+        'date': '2023-09-04T14:00:08Z'
+        }, 
+    {
+        'content': 'UAW clash with automakers shows more confrontational union as strike looms...A 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions. The demands that a more combative United Auto Workers union has pressed on General Motors, Stellantis and Ford are edging it closer to a strike when its contract ends…',
+        'url': 'https://apnews.com/article/automakers-cars-strike-pay-uaw-union-detroit-349a6e7281f1b07710cfcad511dcaa05',
+        'date': '2023-09-04T14:00:05Z'
+        }, 
+    {
+        'content': 'Mercedes CLA Concept Takes Efficiency To A New LevelMercedes brought its CLA Concept to the IAA show this week. It borrows many of the technical features of the EQXX experimental car.',
+        'url': 'https://cleantechnica.com/2023/09/04/mercedes-cla-concept-takes-efficiency-to-a-new-level/',
+        'date': '2023-09-04T13:59:48Z'
+        }, 
+    {
+        'content': 'UAW’s clash with Big 3 automakers shows off a more confrontational union as strike deadline loomsA 46% pay raise. A 32-hour week with 40 hours of pay. A restoration of traditional pensions. The demands that a more combative United Auto Workers union has pressed on General Motors, Stellantis and Ford are edging it closer to a strike when its contract ends…',
+        'url': 'https://www.denverpost.com/2023/09/04/uaws-clash-with-big-3-automakers-shows-off-a-more-confrontational-union-as-strike-deadline-looms/',
+        'date': '2023-09-04T13:57:03Z'
+        }, 
+    {
+        'content': 'Nvidia, Tesla, Apple Stocks All Had a Great Week. Bring On SeptemberIt was a good week for the stock market heading into Labor Day as August ended in strong fashion and Friday’s jobs report ensured a solid star... #laborday',
+        'url': 'https://biztoc.com/x/6b009398fb18a931',
+        'date': '2023-09-04T13:44:27Z'
+        }, 
+    {
+        'content': "'Magnificent 7' Give Markets Hope for SeptemberThis month is historically difficult for stocks. Investors will be hoping the momentum of several big companies can continue.",
+        'url': 'https://www.barrons.com/articles/nvidia-tesla-apple-stock-market-movers-september-80edcfaf',
+        'date': '2023-09-04T13:37:41Z'
+        }, 
+    {
+        'content': "Elon Musk Is Not Satoshi Nakamoto Because 'Bitcoin Whitepaper Has No Memes,' Says DogeDesignerDogeDesigner, as the name suggests, graphic designer at Dogecoin DOGE/USD on Sunday firmly denied the speculation that Elon Musk, the CEO of Tesla and SpaceX, is the elusive creator of Bitcoin BTC/USD known as Satoshi Nakamoto. What Happened: DogeDesigner arg…",
+        'url': 'https://biztoc.com/x/062e06b2ae30a00e',
+        'date': '2023-09-04T13:36:11Z'
+        }
+]
 
-
-#print(insight_Generator().run_chain(news_articles))
+insights, news_articles = insight_Generator().run_chain(news_articles)
+print(insights, news_articles)
