@@ -10,8 +10,8 @@ import json
 from stock_wrapper import get_stock
 from news_wrapper import get_news
 from gen_ai import insight
-from backend.ml_model import predict
-from pymongo_get_database import get_database
+from ml_model import predict_future
+from pymongo_insert import insert_to_db
 
 
 app = Flask(__name__)
@@ -60,26 +60,38 @@ def create_insight(ticker, topics):
             temp["content"] = article["title"] + article["description"]
             temp["url"] = article["url"]
             temp["date"] = article["publishedAt"]
+            temp["title"] = article["title"]
+            temp["description"] = article["description"]
             news_articles.append(temp)
             count += 1
 
+    print("--- PRINT news_articles ---")
     print(news_articles)
     
     # call function from gen_ai.py by passing in news_articles
-    data3 = insight()
+    output_insight, output_news_articles = insight(news_articles)
 
-    toInsertDB = {}
+    print("--- PRINT output_insights ---")
+    print(output_insight)
 
-    # insert into database
-    # dbname = get_database()
-    # collection_name = dbname["news"]
-    # collection_name.insert_one(toInsertDB)
+    print("--- PRINT output_news_articles ---")
+    print(output_news_articles)
+
+    keywords = ""
+    for article in output_news_articles:
+        keywords += article["tags"]
+
+    insert_to_db(output_news_articles, [182.3,182.4,182.1,182.5,182.9,182.4,182.4,182.7,182.1,182.3])
 
     # call function from ml_model.py
-    data4 = predict()
+    data4 = predict_future(keywords)
+    print("---PRINT predict_future ---")
+    print(data4)
 
     return jsonify({
-        "message": "Need to parse through the ticker and topic"
+        "insight": output_insight,
+        "articles": news_articles,
+        "prediction": data4
     })
 
 if __name__ == '__main__':

@@ -28,5 +28,3 @@ def train_and_pickle_model():
     with open ('linear_regression_model.pkl', 'wb') as file: 
         pickle.dump(model, file)
     print('done')
-
-train_and_pickle_model()
