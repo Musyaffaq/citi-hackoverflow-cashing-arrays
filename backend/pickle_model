@@ -5,24 +5,28 @@ client = MongoClient (CONNECTION_STRING)
 dbname = client['tesla-news']
 collection = dbname['news']
 
-documents = list(collection.find())
-keywords = [doc['keywords'] for doc in documents]
-stockprices = [doc['stockprice'] for doc in documents]
+def train_and_pickle_model(): 
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-keywords_text = [k.replace(',', ' ') for k in keywords]
-print(keywords_text)
-vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(keywords_text)
-y  = stockprices
+    documents = list(collection.find())
+    keywords = [doc['keywords'] for doc in documents]
+    stockprices = [doc['stockprice'] for doc in documents]
 
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    keywords_text = [k.replace(',', ' ') for k in keywords]
+    print(keywords_text)
+    vectorizer = TfidfVectorizer()
+    X = vectorizer.fit_transform(keywords_text)
+    y  = stockprices
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 
-from sklearn.linear_model import LinearRegression
-model = LinearRegression()
-model.fit(X_train, y_train)
+    from sklearn.linear_model import LinearRegression
+    model = LinearRegression()
+    model.fit(X_train, y_train)
 
-with open ('linear_regression_model.pkl', 'wb') as file: 
-    pickle.dump(model, file)
+    with open ('linear_regression_model.pkl', 'wb') as file: 
+        pickle.dump(model, file)
+    print('done')
+
+train_and_pickle_model()

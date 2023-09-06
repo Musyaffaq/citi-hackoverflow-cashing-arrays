@@ -1,13 +1,14 @@
-from pymongo_get_database import get_database
+from pymongo import MongoClient
 
-news = {   
-"Date": '6/9/2023',
-"Stock": "TSLA",
-"Keywords": "EV, stock, upturn, positive"
-} 
-dbname = get_database()
- 
-# Retrieve a collection named "user_1_items" from database
-collection_name = dbname["news"]
+def insert_to_db(data): 
 
-collection_name.insert_one(news)   
+    CONNECTION_STRING = "mongodb+srv://edwardsim2021:6wRN4koGWqLyHhqW@tesla-news-dates-and-ta.zrbnzax.mongodb.net/"
+    client = MongoClient (CONNECTION_STRING)
+    dbname = client['tesla-news']
+    collection = dbname['news']
+
+    if isinstance(data, list):
+        result = collection.insert_many(data)
+    else:
+        result = collection.insert_one(data)
+    
