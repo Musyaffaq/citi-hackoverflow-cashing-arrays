@@ -10,7 +10,7 @@ import json
 from stock_wrapper import get_stock
 from news_wrapper import get_news
 from gen_ai import insight
-from ml_model import predict
+from backend.ml_model import predict
 from pymongo_get_database import get_database
 
 

@@ -8,7 +8,7 @@ collection = dbname['news']
 def train_and_pickle_model(): 
 
     documents = list(collection.find())
-    keywords = [doc['keywords'] for doc in documents]
+    keywords = [doc['tags'] for doc in documents]
     stockprices = [doc['stockprice'] for doc in documents]
 
     from sklearn.feature_extraction.text import TfidfVectorizer
