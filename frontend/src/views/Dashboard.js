@@ -50,6 +50,11 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
+// ViewChart Widget;
+import TradingViewWidget from "./ViewChart.js";
+import TradingViewSymbol from "./HeaderInfo.js";
+import TradingViewNews from "./News.js";
+
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
@@ -58,13 +63,224 @@ function Dashboard(props) {
   return (
     <>
       <div className="content">
+
+        {/* <Row>
+          <Col lg="12">
+            <div>
+              <TradingViewSymbol/>
+            </div>
+          </Col>
+        </Row> */}
+
+        {/* Symbol */}
         <Row>
+          <Col xs="12">
+            <Card className="card" display="flex">
+            <TradingViewSymbol/>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col lg="4" md="14">
+            <Card className="card-tasks">
+              <CardHeader>
+                {/* <h5 className="card-category">Stock Performance</h5> */}
+                    <CardTitle tag="h2">Insights</CardTitle>
+              </CardHeader>
+
+              <CardBody class="">
+                <div className="table-full-width table-responsive">
+                  <Table>
+                    <tbody>
+                      <tr>
+                        {/* <td>
+                          <FormGroup check>
+                            <Label check>
+                              <Input defaultValue="" type="checkbox" />
+                              <span className="form-check-sign">
+                                <span className="check" />
+                              </span>
+                            </Label>
+                          </FormGroup>
+                        </td> */}
+                        <td>
+                          <p className="title">Update the Documentation</p>
+                          <p className="text-muted">
+                            Dwuamish Head, Seattle, WA 8:47 AM
+                          </p>
+                        </td>
+                        <td className="td-actions text-right">
+                          {/* <Button
+                            color="link"
+                            id="tooltip636901683"
+                            title=""
+                            type="button"
+                          >
+                            <i className="tim-icons icon-pencil" />
+                          </Button> */}
+                          <UncontrolledTooltip
+                            delay={0}
+                            target="tooltip636901683"
+                            placement="right"
+                          >
+                            Edit Task
+                          </UncontrolledTooltip>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        {/* <td>
+                          <FormGroup check>
+                            <Label check>
+                              <Input defaultValue="" type="checkbox" />
+                              <span className="form-check-sign">
+                                <span className="check" />
+                              </span>
+                            </Label>
+                          </FormGroup>
+                        </td> */}
+                        <td>
+                          <p className="title">Update the Documentation</p>
+                          <p className="text-muted">
+                            Dwuamish Head, Seattle, WA 8:47 AM
+                          </p>
+                        </td>
+                        <td className="td-actions text-right">
+                          {/* <Button
+                            color="link"
+                            id="tooltip636901683"
+                            title=""
+                            type="button"
+                          >
+                            <i className="tim-icons icon-pencil" />
+                          </Button> */}
+                          <UncontrolledTooltip
+                            delay={0}
+                            target="tooltip636901683"
+                            placement="right"
+                          >
+                            Edit Task
+                          </UncontrolledTooltip>
+                        </td>
+                      </tr>
+                      <tr>
+                        {/* <td>
+                          <FormGroup check>
+                            <Label check>
+                              <Input defaultValue="" type="checkbox" />
+                              <span className="form-check-sign">
+                                <span className="check" />
+                              </span>
+                            </Label>
+                          </FormGroup>
+                        </td> */}
+                        <td>
+                          <p className="title">Update the Documentation</p>
+                          <p className="text-muted">
+                            Dwuamish Head, Seattle, WA 8:47 AM
+                          </p>
+                        </td>
+                        <td className="td-actions text-right">
+                          {/* <Button
+                            color="link"
+                            id="tooltip636901683"
+                            title=""
+                            type="button"
+                          >
+                            <i className="tim-icons icon-pencil" />
+                          </Button> */}
+                          <UncontrolledTooltip
+                            delay={0}
+                            target="tooltip636901683"
+                            placement="right"
+                          >
+                            Edit Task
+                          </UncontrolledTooltip>
+                        </td>
+                      </tr>                      
+                    </tbody>
+                  </Table>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+
+
+          <Col lg="4">
+            <Card className="card-chart">
+              <CardHeader>
+                <h5 className="card-category">Total Shipments</h5>
+                <CardTitle tag="h3">
+                  <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                </CardTitle>
+              </CardHeader>
+              <CardBody>
+                {/* <div className="chart-area">
+                  <Line
+                    data={chartExample2.data}
+                    options={chartExample2.options}
+                  />
+                </div> */}
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col lg="4">
+            <Card className="card-chart">
+              <CardHeader>
+                <h5 className="card-category">Daily Sales</h5>
+                <CardTitle tag="h3">
+                  <i className="tim-icons icon-delivery-fast text-primary" />{" "}
+                  3,500€
+                </CardTitle>
+              </CardHeader>
+              <CardBody>
+                <div className="chart-area">
+                  <Bar
+                    data={chartExample3.data}
+                    options={chartExample3.options}
+                  />
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+
+        </Row>
+
+        {/* <Row>
+            <TradingViewWidget/>
+        </Row> */}
+
+
+{/* *****************Large Chart Here***************** */}
+          <Row>
+          <Col xs="12">
+            <Card className="card">
+            <TradingViewWidget/>
+            </Card>
+          </Col>
+        </Row>
+
+
+        <Row>
+          <Col xs="12">
+            <Card className="card" display="flex">
+            <TradingViewNews/>
+            </Card>
+          </Col>
+        </Row>
+
+
+
+          {/* Large Chart Here */}
+        {/* <Row>
           <Col xs="12">
             <Card className="card-chart">
               <CardHeader>
                 <Row>
                   <Col className="text-left" sm="6">
-                    <h5 className="card-category">Total Shipments</h5>
+                    <h5 className="card-category">Stock Performance</h5>
                     <CardTitle tag="h2">Performance</CardTitle>
                   </Col>
                   <Col sm="6">
@@ -137,7 +353,8 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
+
         <Row>
           <Col lg="4">
             <Card className="card-chart">
@@ -157,6 +374,7 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
+          
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
@@ -195,8 +413,13 @@ function Dashboard(props) {
             </Card>
           </Col>
         </Row>
+
+
+
+
+
         <Row>
-          <Col lg="6" md="12">
+          <Col lg="6" md="14">
             <Card className="card-tasks">
               <CardHeader>
                 <h6 className="title d-inline">Tasks(5)</h6>
@@ -463,6 +686,8 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
+
+
           <Col lg="6" md="12">
             <Card>
               <CardHeader>
