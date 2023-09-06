@@ -17,7 +17,7 @@ class insight_Generator():
     def __init__(self):
         self.llm = OpenAI()
         self.text_splitter = CharacterTextSplitter(separator="\n", chunk_size=500, chunk_overlap=50)
-        self.prompt_template_insight = """Generate investment related insights from the article below. 
+        self.prompt_template_insight = """You are a top analyst at an investment bank whose daily job is to analyse news articles to draw insights about the movement of stock prices. Generate investment related insights that you would use in your daily job from the article below. 
         THEN, generate a list of the top 20 tags that could affect the stock price.
         
 
