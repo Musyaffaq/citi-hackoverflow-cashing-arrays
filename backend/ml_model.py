@@ -32,7 +32,6 @@ def predict_future(new_keywords):
     mse = mean_squared_error(y_test, y_pred_before)
     rmse = np.sqrt(mse)
     r2 = model.score(X_train, y_train)
-    print(y_pred_before, mse, r2, rmse)
 
     #predicting function
     new_keywords_text = [new_keywords.replace(',', ' ')]
