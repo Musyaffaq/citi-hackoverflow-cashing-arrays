@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 
@@ -38,8 +38,32 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import Dashboard from "views/Dashboard";
 
 function AdminNavbar(props) {
+
+  // ####################################################################
+
+  // const [symbol, setSymbol] = useState(""); // State to store the symbol entered by the user
+  const [symbol, setSymbol] = useState("NASDAQ:AAPL"); // Initial symbol
+  const [value, setValue] = useState(""); // Initial symbol
+
+
+  const handleSymbolChange = (event) => {
+    // console.log();
+    setValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    // Pass the symbol to the parent component (or another component)
+    // that can then update the TradingViewSymbol component with the new symbol.
+    // props.onSymbolChange(symbol);
+    // setSymbol(event.target.value);
+    setSymbol(value);
+    
+  };
+
+  // ####################################################################
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
@@ -98,12 +122,35 @@ function AdminNavbar(props) {
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar">
+
+        {/* ########################################################################### */}
+
+
+            <InputGroup className="search-bar">
+              <Input
+                placeholder="Enter Symbol"
+                type="text"
+                value={value}
+                onChange={handleSymbolChange}
+              />
+              <Button color="link" onClick={handleSubmit}>
+                <i className="tim-icons icon-zoom-split" />
+                <span className="d-lg-none d-md-block">Search</span>
+              </Button>
+            </InputGroup>
+
+
+      {/* ########################################################################### */}
+
+
+              {/* <InputGroup className="search-bar">
                 <Button color="link" onClick={toggleModalSearch}>
                   <i className="tim-icons icon-zoom-split" />
                   <span className="d-lg-none d-md-block">Search</span>
                 </Button>
-              </InputGroup>
+              </InputGroup> */}
+
+
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -190,7 +237,10 @@ function AdminNavbar(props) {
           </button>
         </ModalHeader>
       </Modal>
+
+      <Dashboard name = {symbol}/>
     </>
+    
   );
 }
 

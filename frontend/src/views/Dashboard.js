@@ -57,6 +57,7 @@ import TradingViewNews from "./News.js";
 
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
+  console.log("received: "+ props.name);
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
@@ -76,7 +77,7 @@ function Dashboard(props) {
         <Row>
           <Col xs="12">
             <Card className="card" display="flex">
-            <TradingViewSymbol/>
+            <TradingViewSymbol name={props.name}/>
             </Card>
           </Col>
         </Row>
@@ -268,7 +269,7 @@ function Dashboard(props) {
           <Row>
           <Col xs="12">
             <Card className="card">
-            <TradingViewWidget/>
+            <TradingViewWidget name={props.name}/>
             </Card>
           </Col>
         </Row>
@@ -277,7 +278,7 @@ function Dashboard(props) {
         <Row>
           <Col xs="12">
             <Card className="card" display="flex">
-            <TradingViewNews/>
+            <TradingViewNews name={props.name}/>
             </Card>
           </Col>
         </Row>

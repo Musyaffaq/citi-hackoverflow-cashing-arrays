@@ -117,13 +117,13 @@ function Admin(props) {
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
               />
-              <Routes>
+              {/* <Routes>
                 {getRoutes(routes)}
                 <Route
                   path="/"
                   element={<Navigate to="/admin/dashboard" replace />}
                 />
-              </Routes>
+              </Routes> */}
               {
                 // we don't want the Footer to be rendered on map page
                 location.pathname === "/admin/maps" ? null : <Footer fluid />

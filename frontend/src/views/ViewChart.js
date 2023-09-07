@@ -1,7 +1,7 @@
 // TradingViewWidget.jsx
 import React, { useEffect, useRef, memo } from 'react';
 
-function TradingViewWidget() {
+function TradingViewWidget(props) {
   const container = useRef();
 
   useEffect(
@@ -10,61 +10,61 @@ function TradingViewWidget() {
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
       script.type = "text/javascript";
       script.async = true;
-      script.innerHTML = `
-        {
-          "symbols": [
-            [
-              "Apple",
-              "AAPL|1D"
-            ],
-            [
-              "Google",
-              "GOOGL|1D"
-            ],
-            [
-              "Microsoft",
-              "MSFT|1D"
-            ],
-            [
-              "FX:EURUSD|1D"
-            ]
-          ],
-          "chartOnly": true,
-          "width": "100%",
-          "height": "500",
-          "locale": "en",
-          "colorTheme": "dark",
-          "autosize": true,
-          "showVolume": true,
-          "showMA": true,
-          "hideDateRanges": false,
-          "hideMarketStatus": false,
-          "hideSymbolLogo": false,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "area",
-          "maLineColor": "#2962FF",
-          "maLineWidth": 1,
-          "maLength": 9,
-          "lineWidth": 2,
-          "lineType": 0,
-          "dateRanges": [
-            "1d|1",
-            "1m|30",
-            "3m|60",
-            "12m|1D",
-            "60m|1W",
-            "all|1M"
-          ]
-        }`;
+      script.innerHTML = JSON.stringify({
+        symbols:[
+          [
+            props.name
+          ]],
+        chartOnly: true,
+        width: "100%",
+        height: "500",
+        locale: "en",
+        colorTheme: "dark",
+        autosize: true,
+        showVolume: true,
+        showMA: true,
+        hideDateRanges: false,
+        hideMarketStatus: false,
+        hideSymbolLogo: false,
+        scalePosition: "right",
+        scaleMode: "Normal",
+        fontFamily: "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+        fontSize: "10",
+        noTimeScale: false,
+        valuesTracking: "1",
+        changeMode: "price-and-percent",
+        chartType: "area",
+        maLineColor: "#2962FF",
+        maLineWidth: 1,
+        maLength: 9,
+        lineWidth: 2,
+        lineType: 0,
+        dateRanges: [
+          "1d|1",
+          "1m|30",
+          "3m|60",
+          "12m|1D",
+          "60m|1W",
+          "all|1M"
+        ],
+      });
       container.current.appendChild(script);
+      return () => {
+        // Clean up by removing the script when the component unmounts
+        
+        // container.current.removeChild(container.current.children[0]);
+  
+  
+        // if (container.current.contains(script)) {
+          container.current.removeChild(container.current.children[0]);
+          container.current.removeChild(container.current.children[0]);
+        // }
+        console.log("rerunned yay");
+        // console.log(container.current);
+  
+      };
     },
-    []
+    [props.name]
   );
 
   return (
