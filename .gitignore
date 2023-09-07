@@ -2,3 +2,4 @@ node_modules
 .DS_STORE
 __pycache__
 .env
+site-packages

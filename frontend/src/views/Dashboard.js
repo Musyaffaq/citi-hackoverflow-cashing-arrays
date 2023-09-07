@@ -56,44 +56,40 @@ import TradingViewNews from "./News.js";
 
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
-  console.log("received: "+ props.name);
+  console.log("received: " + props.name);
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
 
   const handleTitleClick = (url) => {
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
   return (
     <>
       <div className="content">
-
         {/* Symbol */}
         <Row>
           <Col xs="12">
             <Card className="card" display="flex">
-            <TradingViewSymbol name={props.name}/>
+              <TradingViewSymbol name={props.name} />
             </Card>
           </Col>
         </Row>
 
         <Row>
           <Col md="5">
-          
             <Card className="card-tasks">
-            <CardHeader>
-                    <CardTitle tag="h2">Insights</CardTitle>
+              <CardHeader>
+                <CardTitle tag="h2">Insights</CardTitle>
               </CardHeader>
-              
+
               <CardBody>
                 <div className="insight table-full-width table-responsive insights">
                   <Table>
                     <tbody>
                       <tr>
                         <td>
-                          <p>
-                          {props.info.insight}
-                          </p>
+                          <p>{props.info.insight}</p>
                         </td>
                       </tr>
                     </tbody>
@@ -104,11 +100,12 @@ function Dashboard(props) {
 
             <Row>
               <Col lg="6">
-                <Card className="card-chart" >
+                <Card className="card-chart">
                   <CardHeader>
                     <h5 className="card-category">Confidence Score</h5>
                     <CardTitle tag="h3">
-                      <i className="tim-icons icon-send text-success" /> {props.info.prediction.rmse.toFixed(2)}%
+                      <i className="tim-icons icon-send text-success" />{" "}
+                      {props.info.prediction.r2.toFixed(2) * 100}%
                     </CardTitle>
                   </CardHeader>
                   <CardBody>
@@ -120,37 +117,25 @@ function Dashboard(props) {
                     </div> */}
                   </CardBody>
                 </Card>
-
               </Col>
-              
 
               <Col lg="6">
-                <Card className="card-chart" >
+                <Card className="card-chart">
                   <CardHeader>
                     <h5 className="card-category">Predicted Direction</h5>
                     <CardTitle tag="h3">
                       {/* <i className="tim-icons icon-minimal-up text-success" /> Up */}
-                      <i className="tim-icons icon-minimal-down text-warning" /> ${props.info.prediction.predicted_price.toFixed(2)}
+                      {/* <i className="tim-icons icon-minimal-down text-warning" />{" "} */}
+                      ${props.info.prediction.predicted_price.toFixed(2)}
                     </CardTitle>
                   </CardHeader>
-                  <CardBody>
-
-                  </CardBody>
+                  <CardBody></CardBody>
                 </Card>
-
               </Col>
             </Row>
-        
           </Col>
 
-          
-          
-
           <Col md="7">
-
-
-            
-
             {/* <Card className="card-chart " display="flex">
                   <CardHeader>
                     <h5 className="card-category">Total Shipments</h5>
@@ -175,64 +160,53 @@ function Dashboard(props) {
               <CardBody>
                 <Table className="tablesorter " responsive>
                   <div className="articles">
-
                     <tbody>
-                        {props.info.articles.map((article, index) => (
-                          <tr key={index}>
+                      {props.info.articles.map((article, index) => (
+                        <tr key={index}>
                           <td>
-                            <p className="title clickable-title" onClick={() => handleTitleClick(article.url)}>{article.title}</p>
-                            {/* <p>{article.description}</p> */}
-                            <p className="text-muted">
-                            {article.date}
+                            <p
+                              className="title clickable-title"
+                              onClick={() => handleTitleClick(article.url)}
+                            >
+                              {article.title}
                             </p>
-                            {article.tags.split(',').map((tag, tagIndex) => (
-                              <span key={tagIndex} className="badge badge-primary">
+                            {/* <p>{article.description}</p> */}
+                            <p className="text-muted">{article.date}</p>
+                            {article.tags.split(",").map((tag, tagIndex) => (
+                              <span
+                                key={tagIndex}
+                                className="badge badge-primary"
+                              >
                                 {tag}
                               </span>
                             ))}
-
-                            
                           </td>
-                          </tr>
+                        </tr>
                       ))}
                     </tbody>
-
                   </div>
                 </Table>
               </CardBody>
             </Card>
-
           </Col>
-
         </Row>
 
-{/* *****************Large Chart Here***************** */}
-          <Row>
+        {/* *****************Large Chart Here***************** */}
+        <Row>
           <Col xs="12">
             <Card className="card">
-            <TradingViewWidget name={props.name}/>
+              <TradingViewWidget name={props.name} />
             </Card>
           </Col>
         </Row>
-
 
         <Row>
           <Col xs="12">
             <Card className="card" display="flex">
-            <TradingViewNews name={props.name}/>
+              <TradingViewNews name={props.name} />
             </Card>
           </Col>
         </Row>
-
-
-
-        
-
-
-
-
-
-        
       </div>
     </>
   );

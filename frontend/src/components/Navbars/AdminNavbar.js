@@ -15,10 +15,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-import data from '../../data.json';
+import defaultData from "../../data.json";
 
 // reactstrap components
 import {
@@ -43,14 +43,13 @@ import Dashboard from "views/Dashboard";
 import Dashboard2 from "views/Dashboard_Copy";
 
 function AdminNavbar(props) {
-
   // ####################################################################
 
   // const [symbol, setSymbol] = useState(""); // State to store the symbol entered by the user
-  const [symbol, setSymbol] = useState("NASDAQ:AAPL"); // Initial symbol
-  const [value, setValue] = useState(""); // Initial symbol
-  
+  const [symbol, setSymbol] = useState("NASDAQ:TSLA"); // Initial symbol
+  const [value, setValue] = useState("TSLA"); // Initial symbol
 
+  const [data, setData] = useState(defaultData);
 
   const handleSymbolChange = (event) => {
     // console.log();
@@ -58,13 +57,28 @@ function AdminNavbar(props) {
     // console.log(data)
   };
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    const fetchData = async (symbol) => {
+      console.log("api called");
+      // Make an API call
+      const response = await fetch(
+        `http://127.0.0.1:5000/create_insight/${symbol}/${symbol}`
+      );
+      const jsonData = await response.json();
+
+      setData(jsonData);
+      console.log(data);
+    };
+    fetchData(symbol);
+  }, [symbol]);
+
+  const handleSubmit = async (event) => {
     // Pass the symbol to the parent component (or another component)
     // that can then update the TradingViewSymbol component with the new symbol.
     // props.onSymbolChange(symbol);
     // setSymbol(event.target.value);
     setSymbol(value);
-    
+    //  set data to the fetched data
   };
 
   // ####################################################################
@@ -126,26 +140,22 @@ function AdminNavbar(props) {
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
+              {/* ########################################################################### */}
 
-        {/* ########################################################################### */}
+              <InputGroup className="search-bar">
+                <Input
+                  placeholder="Enter Symbol"
+                  type="text"
+                  value={value}
+                  onChange={handleSymbolChange}
+                />
+                <Button color="link" onClick={handleSubmit}>
+                  <i className="tim-icons icon-zoom-split" />
+                  <span className="d-lg-none d-md-block">Search</span>
+                </Button>
+              </InputGroup>
 
-
-            <InputGroup className="search-bar">
-              <Input
-                placeholder="Enter Symbol"
-                type="text"
-                value={value}
-                onChange={handleSymbolChange}
-              />
-              <Button color="link" onClick={handleSubmit}>
-                <i className="tim-icons icon-zoom-split" />
-                <span className="d-lg-none d-md-block">Search</span>
-              </Button>
-            </InputGroup>
-
-
-      {/* ########################################################################### */}
-
+              {/* ########################################################################### */}
 
               {/* <InputGroup className="search-bar">
                 <Button color="link" onClick={toggleModalSearch}>
@@ -153,7 +163,6 @@ function AdminNavbar(props) {
                   <span className="d-lg-none d-md-block">Search</span>
                 </Button>
               </InputGroup> */}
-
 
               {/* <UncontrolledDropdown nav>
                 <DropdownToggle
@@ -242,13 +251,9 @@ function AdminNavbar(props) {
         </ModalHeader>
       </Modal>
 
-      <Dashboard 
-        name = {symbol}
-        info = {data}
-      />
+      <Dashboard name={symbol} info={data} />
       {/* <Dashboard2/> */}
     </>
-    
   );
 }
 

@@ -1,10 +1,24 @@
 # citi-hackoverflow-cashing-arrays
 
-## to set up project
-1. clone this repo to your local
-2. run `cd frontend`
-3. run `npm install` or use `npm install --force` if required
+## To Set Up This Project
+1. Clone this repository to your local machine
+2. Run `cd frontend`
+3. Run `npm install` or use `npm install --force` if required
+4. Run `cd ../backend`
+5. Run `pip install -r requirements.txt`
 
-# to run frontend
-1. from root, run `cd frontend`
-2. run `npm start`
+# Adding your own API Token for the 2 services used
+1. Inside the `backend` folder, create a .env file and add in these 2 tokens:
+    - `NEWS_API_KEY=` from https://newsapi.org/
+    - `API_KEY` from https://openai.com/blog/openai-api
+
+# To run frontend
+1. From the root directory, run `cd frontend`
+2. Run `npm run start` to start the frontend
+
+# To run the backend
+1. From the root directory, run `cd backend`
+2. Run `python main.py` to start the backend
+
+# Credits
+- Frontend UI: https://github.com/creativetimofficial/black-dashboard-react
