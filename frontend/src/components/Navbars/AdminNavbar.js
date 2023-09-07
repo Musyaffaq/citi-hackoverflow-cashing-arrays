@@ -109,11 +109,11 @@ function AdminNavbar(props) {
                 toggled: props.sidebarOpened,
               })}
             >
-              <NavbarToggler onClick={props.toggleSidebar}>
+              {/* <NavbarToggler onClick={props.toggleSidebar}>
                 <span className="navbar-toggler-bar bar1" />
                 <span className="navbar-toggler-bar bar2" />
                 <span className="navbar-toggler-bar bar3" />
-              </NavbarToggler>
+              </NavbarToggler> */}
             </div>
             <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
               {props.brandText}

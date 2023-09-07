@@ -25,6 +25,7 @@ function Footer() {
   return (
     <footer className="footer">
       <Container fluid>
+
         <div className="copyright">
           Made by{" "}
           
