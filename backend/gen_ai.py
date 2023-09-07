@@ -27,8 +27,8 @@ class insight_Generator():
 
         --EXAMPLE--
         INSIGHTS: "Insight here"
-        LIST OF CATEGORIES: "tag 1, tag 2, tag 3, tag 4, tag 5, tag 6, tag 7, tag 8, tag 9, tag 10, tag 11, tag 12, tag 13, tag 14, tag 15, tag 16, tag 17, tag 18, tag 19, tag 20"
-        LIST OF RISKS: "risk 1, risk 2, risk 3..."
+        TAGS: "tag 1, tag 2, tag 3, tag 4, tag 5, tag 6, tag 7, tag 8, tag 9, tag 10, tag 11, tag 12, tag 13, tag 14, tag 15, tag 16, tag 17, tag 18, tag 19, tag 20"
+        RISKS: "risk 1, risk 2, risk 3..."
         """
         self.prompt_template_sum = """Generate a detailed summary of all the insights below:
         
@@ -72,14 +72,14 @@ class insight_Generator():
             result = chain.run(input_documents=docs)
 
             start = result.find("INSIGHT:") + len("INSIGHT:")
-            end = result.find("LIST OF CATEGORIES:")
-            start2 = end + len("LIST OF CATEGORIES:")
-            end2 = result.find("LIST OF RISKS:")
-            start3 = end2 + len("LIST OF RISKS:")
+            end = result.find("TAGS:")
+            start2 = end + len("TAGS:")
+            end2 = result.find("RISKS:")
+            start3 = end2 + len("RISKS:")
  
             insight = result[start:end].strip()
-            tags_raw = result[start2:end2].strip()
-            risks_raw = result[start3:].strip()
+            tags_raw = result[start2:end2].strip().rstrip(".")
+            risks_raw = result[start3:].strip().rstrip(".")
             news_articles[i]['tags'] = tags_raw
             news_articles[i]['risks'] = risks_raw
 
@@ -98,6 +98,9 @@ class insight_Generator():
         return sum_insights, news_articles
 
 
+def insight(news_articles):
+    insights, news_articles = insight_Generator().run_chain(news_articles)
+    return insights, news_articles
 
 
 # news_articles = [
@@ -153,8 +156,5 @@ class insight_Generator():
 #         }
 # ]
 
-def insight(news_articles):
-    insights, news_articles = insight_Generator().run_chain(news_articles)
-    return insights, news_articles
 
-
+# print(insight(news_articles))
