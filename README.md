@@ -15,10 +15,12 @@
 # To run frontend
 1. From the root directory, run `cd frontend`
 2. Run `npm run start` to start the frontend
+3. Access the frontend at `http://localhost:3000/`
 
 # To run the backend
 1. From the root directory, run `cd backend`
 2. Run `python main.py` to start the backend
+3. Access the backend at `http://localhost:5000/`
 
 # Credits
 - Frontend UI: https://github.com/creativetimofficial/black-dashboard-react
