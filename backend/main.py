@@ -78,6 +78,9 @@ def create_insight(ticker, topics):
     print("--- PRINT output_news_articles ---")
     print(output_news_articles)
 
+    stockprice = [182.5, 187.3, 179.5, 178.6, 181.1]
+    insert_to_db(output_news_articles, stockprice)
+
     train_and_pickle_model()
 
     keywords = ""
