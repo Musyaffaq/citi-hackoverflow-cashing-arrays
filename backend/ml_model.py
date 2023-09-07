@@ -6,10 +6,7 @@ from pymongo import MongoClient
 from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm 
 
-
 vectorizer = TfidfVectorizer()
-
-
 
 def predict_future(new_keywords): 
     with open('linear_regression_model.pkl', 'rb') as file:

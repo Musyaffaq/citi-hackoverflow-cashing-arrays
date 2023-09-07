@@ -12,6 +12,7 @@ from news_wrapper import get_news
 from gen_ai import insight
 from ml_model import predict_future
 from pymongo_insert import insert_to_db
+from pickle_model import train_and_pickle_model
 
 
 app = Flask(__name__)
@@ -54,7 +55,7 @@ def create_insight(ticker, topics):
     news_articles = []
     for article in articles:
         temp = {}
-        if count == 10:
+        if count == 5:
             break
         if article["title"] != "[Removed]":
             temp["content"] = article["title"] + article["description"]
@@ -77,11 +78,13 @@ def create_insight(ticker, topics):
     print("--- PRINT output_news_articles ---")
     print(output_news_articles)
 
+    train_and_pickle_model()
+
     keywords = ""
     for article in output_news_articles:
         keywords += article["tags"]
-
-    insert_to_db(output_news_articles, [182.3,182.4,182.1,182.5,182.9,182.4,182.4,182.7,182.1,182.3])
+    
+  
 
     # call function from ml_model.py
     data4 = predict_future(keywords)
@@ -95,5 +98,5 @@ def create_insight(ticker, topics):
     })
 
 if __name__ == '__main__':
-    print("Running the " + os.path.basename(__file__) + " service")
+    print("Running the " + os.path.basename(__file__) + "service")
     app.run(host='0.0.0.0', debug=True)
