@@ -55,7 +55,7 @@ import TradingViewWidget from "./ViewChart.js";
 import TradingViewSymbol from "./HeaderInfo.js";
 import TradingViewNews from "./News.js";
 
-function Dashboard(props) {
+function Dashboard2(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
@@ -768,4 +768,4 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+export default Dashboard2;

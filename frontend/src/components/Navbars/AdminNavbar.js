@@ -18,6 +18,7 @@
 import React, { useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
+import data from '../../data.json';
 
 // reactstrap components
 import {
@@ -39,6 +40,7 @@ import {
   ModalHeader,
 } from "reactstrap";
 import Dashboard from "views/Dashboard";
+import Dashboard2 from "views/Dashboard_Copy";
 
 function AdminNavbar(props) {
 
@@ -47,11 +49,13 @@ function AdminNavbar(props) {
   // const [symbol, setSymbol] = useState(""); // State to store the symbol entered by the user
   const [symbol, setSymbol] = useState("NASDAQ:AAPL"); // Initial symbol
   const [value, setValue] = useState(""); // Initial symbol
+  
 
 
   const handleSymbolChange = (event) => {
     // console.log();
     setValue(event.target.value);
+    // console.log(data)
   };
 
   const handleSubmit = (event) => {
@@ -151,7 +155,7 @@ function AdminNavbar(props) {
               </InputGroup> */}
 
 
-              <UncontrolledDropdown nav>
+              {/* <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
                   color="default"
@@ -189,7 +193,7 @@ function AdminNavbar(props) {
                     </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
-              </UncontrolledDropdown>
+              </UncontrolledDropdown> */}
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -238,7 +242,11 @@ function AdminNavbar(props) {
         </ModalHeader>
       </Modal>
 
-      <Dashboard name = {symbol}/>
+      <Dashboard 
+        name = {symbol}
+        info = {data}
+      />
+      {/* <Dashboard2/> */}
     </>
     
   );

@@ -39,7 +39,6 @@ import {
   Table,
   Row,
   Col,
-  UncontrolledTooltip,
 } from "reactstrap";
 
 // core components
@@ -61,17 +60,13 @@ function Dashboard(props) {
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
+
+  const handleTitleClick = (url) => {
+    window.open(url, '_blank');
+  };
   return (
     <>
       <div className="content">
-
-        {/* <Row>
-          <Col lg="12">
-            <div>
-              <TradingViewSymbol/>
-            </div>
-          </Col>
-        </Row> */}
 
         {/* Symbol */}
         <Row>
@@ -83,79 +78,21 @@ function Dashboard(props) {
         </Row>
 
         <Row>
-          <Col lg="6" md="8">
-
-
+          <Col md="5">
           
             <Card className="card-tasks">
             <CardHeader>
-                {/* <h5 className="card-category">Stock Performance</h5> */}
                     <CardTitle tag="h2">Insights</CardTitle>
               </CardHeader>
               
               <CardBody>
-                <div className="table-full-width table-responsive">
+                <div className="insight table-full-width table-responsive insights">
                   <Table>
                     <tbody>
                       <tr>
                         <td>
-                          <p className="title">Update the Documentation</p>
-                          <p className="text-muted">
-                            Dwuamish Head, Seattle, WA 8:47 AM
-                          </p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <p className="title">GDPR Compliance</p>
-                          <p className="text-muted">
-                            The GDPR is a regulation that requires businesses to
-                            protect the personal data and privacy of Europe
-                            citizens for transactions that occur within EU
-                            member states.
-                          </p>
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                        <td>
-                          <p className="title">Solve the issues</p>
-                          <p className="text-muted">
-                            Fifty percent of all respondents said they would be
-                            more likely to shop at a company
-                          </p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <p className="title">Release v2.0.0</p>
-                          <p className="text-muted">
-                            Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM
-                          </p>
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                        <td>
-                          <p className="title">Export the processed files</p>
-                          <p className="text-muted">
-                            The report also shows that consumers will not easily
-                            forgive a company once a breach exposing their
-                            personal data occurs.
-                          </p>
-                        </td>
-                      </tr>
-
-
-                      <tr>
-                        <td>
-                          <p className="title">Arival at export process</p>
-                          <p className="text-muted">
-                            Capitol Hill, Seattle, WA 12:34 AM
+                          <p>
+                          {props.info.insight}
                           </p>
                         </td>
                       </tr>
@@ -164,14 +101,6 @@ function Dashboard(props) {
                 </div>
               </CardBody>
             </Card>
-        
-          </Col>
-
-
-          
-
-          <Col lg="6" md="4">
-
 
             <Row>
               <Col lg="6">
@@ -179,7 +108,7 @@ function Dashboard(props) {
                   <CardHeader>
                     <h5 className="card-category">Confidence Score</h5>
                     <CardTitle tag="h3">
-                      <i className="tim-icons icon-send text-success" /> 89.5%
+                      <i className="tim-icons icon-send text-success" /> {props.info.prediction.rmse.toFixed(2)}%
                     </CardTitle>
                   </CardHeader>
                   <CardBody>
@@ -201,23 +130,28 @@ function Dashboard(props) {
                     <h5 className="card-category">Predicted Direction</h5>
                     <CardTitle tag="h3">
                       {/* <i className="tim-icons icon-minimal-up text-success" /> Up */}
-                      <i className="tim-icons icon-minimal-down text-warning" /> Down
+                      <i className="tim-icons icon-minimal-down text-warning" /> ${props.info.prediction.predicted_price.toFixed(2)}
                     </CardTitle>
                   </CardHeader>
                   <CardBody>
-                    {/* <div className="chart-area">
-                      <Line
-                        data={chartExample2.data}
-                        options={chartExample2.options}
-                      />
-                    </div> */}
+
                   </CardBody>
                 </Card>
 
               </Col>
             </Row>
+        
+          </Col>
 
-            <Card className="card-chart " display="flex">
+          
+          
+
+          <Col md="7">
+
+
+            
+
+            {/* <Card className="card-chart " display="flex">
                   <CardHeader>
                     <h5 className="card-category">Total Shipments</h5>
                     <CardTitle tag="h3">
@@ -232,38 +166,45 @@ function Dashboard(props) {
                       />
                     </div>
                   </CardBody>
-                </Card>
+                </Card> */}
+
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Insights Sources</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Table className="tablesorter " responsive>
+                  <div className="articles">
+
+                    <tbody>
+                        {props.info.articles.map((article, index) => (
+                          <tr key={index}>
+                          <td>
+                            <p className="title clickable-title" onClick={() => handleTitleClick(article.url)}>{article.title}</p>
+                            {/* <p>{article.description}</p> */}
+                            <p className="text-muted">
+                            {article.date}
+                            </p>
+                            {article.tags.split(',').map((tag, tagIndex) => (
+                              <span key={tagIndex} className="badge badge-primary">
+                                {tag}
+                              </span>
+                            ))}
+
+                            
+                          </td>
+                          </tr>
+                      ))}
+                    </tbody>
+
+                  </div>
+                </Table>
+              </CardBody>
+            </Card>
 
           </Col>
 
-
-
-          {/* <Col lg="3">
-            <Card className="card-chart"> 
-              <CardHeader>
-                <h5 className="card-category">Daily Sales</h5>
-                <CardTitle tag="h3">
-                  <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                  3,500€
-                </CardTitle>
-              </CardHeader>
-              <CardBody>
-                <div className="chart-area">
-                  <Bar
-                    data={chartExample3.data}
-                    options={chartExample3.options}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col> */}
-
         </Row>
-
-        {/* <Row>
-            <TradingViewWidget/>
-        </Row> */}
-
 
 {/* *****************Large Chart Here***************** */}
           <Row>

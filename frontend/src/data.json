@@ -1,0 +1,57 @@
+{
+    "articles": [
+        {
+            "content": "A Tesla bumper sticker that says 'I bought this before we knew Elon was crazy' keeps popping up on social media. It's prompting a debate about whether you can separate a product from its CEO.Several Redditors mocked the idea of avoiding Tesla because of Elon Musk's controversial reputation. Others said they wouldn't buy one of his EVs.",
+            "date": "2023-09-06T09:09:01Z",
+            "description": "Several Redditors mocked the idea of avoiding Tesla because of Elon Musk's controversial reputation. Others said they wouldn't buy one of his EVs.",
+            "risks": "Political Risk, Business Risk, Model Risk",
+            "tags": "Tesla, Elon Musk, Bumper Sticker, Social Media, Redditors, EVs",
+            "title": "A Tesla bumper sticker that says 'I bought this before we knew Elon was crazy' keeps popping up on social media. It's prompting a debate about whether you can separate a product from its CEO.",
+            "url": "https://www.businessinsider.com/tesla-sticker-bought-before-elon-was-crazy-debate-reddit-2023-9"
+        },
+        {
+            "content": "OKX to Give Away 2M USDT and a Tesla in September 'Trade Like a Pro' Trading CompetitionDUBAI, UAE, Sept. 6, 2023 /PRNewswire/ -- OKX, a global leading Web3 technology company and crypto exchange, has opened entries for its biggest ever trading competition as part of its Trade Like a Pro brand campaign, offering a prize pool of more than 2 milli…",
+            "date": "2023-09-06T09:09:00Z",
+            "description": "DUBAI, UAE, Sept. 6, 2023 /PRNewswire/ -- OKX, a global leading Web3 technology company and crypto exchange, has opened entries for its biggest ever trading competition as part of its Trade Like a Pro brand campaign, offering a prize pool of more than 2 milli…",
+            "risks": "Market Risk, Credit Risk, Liquidity Risk, Operational Risk, Currency Risk, Volatility Risk",
+            "tags": "OKX, Trading Competition, Trade Like a Pro, Cryptocurrency Exchange, Prize Pool, 2 Million USDT, Tesla",
+            "title": "OKX to Give Away 2M USDT and a Tesla in September 'Trade Like a Pro' Trading Competition",
+            "url": "https://www.prnewswire.com/news-releases/okx-to-give-away-2m-usdt-and-a-tesla-in-september-trade-like-a-pro-trading-competition-301918933.html"
+        },
+        {
+            "content": "A Tesla bumper sticker stirs debate on Reddit: 'I bought this before we knew Elon was crazy'Filed under:\n Green,First Drives,Hatchback,Electric,Luxury,Sedan,Polestar\n Continue reading A Tesla bumper sticker stirs debate on Reddit: 'I bought this before we knew Elon was crazy'\nA Tesla bumper sticker stirs debate on Reddit: 'I bought this before we kn…",
+            "date": "2023-09-06T09:09:00Z",
+            "description": "Filed under:\n Green,First Drives,Hatchback,Electric,Luxury,Sedan,Polestar\n Continue reading A Tesla bumper sticker stirs debate on Reddit: 'I bought this before we knew Elon was crazy'\nA Tesla bumper sticker stirs debate on Reddit: 'I bought this before we kn…",
+            "risks": "Political Risk, Business Risk, Volatility Risk, Concentration Risk",
+            "tags": "Green, First Drives, Hatchback, Electric, Luxury, Sedan, Polestar, Tesla, Elon Musk, Investor Sentiment",
+            "title": "A Tesla bumper sticker stirs debate on Reddit: 'I bought this before we knew Elon was crazy'",
+            "url": "https://www.autoblog.com/2023/09/06/a-tesla-bumper-sticker-stirs-debate-on-reddit-i-bought-this-before-we-knew-elon-was-crazy/"
+        },
+        {
+            "content": "A brief history of DogecoinFrom a meme to a cryptocurrency endorsed by Tesla CEO Elon Musk and investor Mark Cuban: The rise of Dogecoin. #tesla #elonmusk #markcuban #dogecoin",
+            "date": "2023-09-06T09:06:19Z",
+            "description": "From a meme to a cryptocurrency endorsed by Tesla CEO Elon Musk and investor Mark Cuban: The rise of Dogecoin. #tesla #elonmusk #markcuban #dogecoin",
+            "risks": "Market Risk, Volatility Risk, Counterparty Risk",
+            "tags": "Tesla, Elon Musk, Mark Cuban, Dogecoin",
+            "title": "A brief history of Dogecoin",
+            "url": "https://biztoc.com/x/352a8ac28e0911cc"
+        },
+        {
+            "content": "Kelley Blue Book: ‘Dirtier to build but cleaner to drive’: This is how many miles you need to drive an EV to reduce its carbon footprint, study findsWould switching to an electric vehicle reduce your environmental impact? The answer, a new study says, depends on how much you drive.",
+            "date": "2023-09-06T09:01:00Z",
+            "description": "Would switching to an electric vehicle reduce your environmental impact? The answer, a new study says, depends on how much you drive.",
+            "risks": "Operational Risk, Business Risk, Political Risk, Concentration Risk",
+            "tags": "Wind Power, Electric Vehicle, Carbon Footprint, Miles, Environmental Impact, Kelley Blue Book, Study, Driving, Switching",
+            "title": "Kelley Blue Book: ‘Dirtier to build but cleaner to drive’: This is how many miles you need to drive an EV to reduce its carbon footprint, study finds",
+            "url": "https://www.marketwatch.com/story/dirtier-to-build-but-cleaner-to-drive-this-is-how-many-miles-you-need-to-drive-an-ev-to-reduce-its-carbon-footprint-study-finds-6900efe0"
+        }
+    ],
+
+    "insight": "\n        OKEx is launching a trading competition with a prize pool of over 2 million USDT and a Tesla, which could attract traders to the crypto exchange. Investor sentiment towards Tesla may be declining due to recent controversy surrounding its CEO, Elon Musk. On the other hand, Dogecoin has seen incredible success due to endorsements from Musk and investor Mark iCuban. Additionally, switching to an electric vehicle could reduce environmental impact, depending on how much you drive.",
+    "prediction": {
+        "mse": 0.05987567655145924,
+        "predicted_price": 182.35555054854322,
+        "r2": 0.9824171432852986,
+        "rmse": 0.24469506850661957
+    }
+}
