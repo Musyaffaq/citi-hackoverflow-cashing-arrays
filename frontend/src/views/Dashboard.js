@@ -105,7 +105,7 @@ function Dashboard(props) {
                     <h5 className="card-category">Confidence Score</h5>
                     <CardTitle tag="h3">
                       <i className="tim-icons icon-send text-success" />{" "}
-                      {props.info.prediction.r2.toFixed(2) * 100}%
+                      {(props.info.prediction.r2 * 100).toFixed(2)}%
                     </CardTitle>
                   </CardHeader>
                   <CardBody>
